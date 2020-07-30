@@ -26,7 +26,7 @@ RUN mkdir -p /tmp/build/nginx && \
 
 # Dowload and decompress NGINX dependencies
 
-RUN cd /usr/local/ && \
+RUN cd /usr/local && \
     wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && \
     tar xzvf pcre-8.44.tar.gz && \
     wget https://www.zlib.net/zlib-1.2.11.tar.gz && \
@@ -56,9 +56,9 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
         --http-client-body-temp-path=/tmp/nginx-client-body \
         --with-http_ssl_module \
         --with-threads \
-        --with-pcre=/usr/local/ \
-        --with-zlib=/usr/local/ \
-        --with-openssl=/usr/local/ \
+        --with-pcre=/usr/local \
+        --with-zlib=/usr/local \
+        --with-openssl=/usr/local \
         --add-module=/tmp/build/nginx-rtmp-module/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION} && \
     make -j $(getconf _NPROCESSORS_ONLN) && \
     make install && \
