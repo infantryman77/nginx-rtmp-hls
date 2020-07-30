@@ -12,22 +12,8 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 RUN apt update && \
     apt upgrade -y && \
     apt autoremove -y && \
-    apt install build-essential -y && \
-    apt install wget -y && \
-    apt install -y ca-certificates openssl libssl-dev && \
+    apt install build-essential libpcre3 libpcre3-dev libssl-dev unzip ca-certificates openssl wget -y && \
     rm -rf /var/lib/apt/lists/*
-
-# Download and decompress PCRE
-
-RUN cd usr/local/ && \
-    wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && \
-    tar xzvf pcre-8.44.tar.gz
-    
-# Download and decompress zlib
-
-RUN cd usr/local/ && \
-    wget https://www.zlib.net/zlib-1.2.11.tar.gz && \
-    tar xzvf zlib-1.2.11.tar.gz
 
 # Download and decompress Nginx
 
