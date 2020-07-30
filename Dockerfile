@@ -17,11 +17,17 @@ RUN apt update && \
     apt install -y ca-certificates openssl libssl-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Install PCRE Library
+# Download and decompress PCRE
 
 RUN cd usr/local/ && \
     wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && \
     tar xzvf pcre-8.44.tar.gz
+    
+# Download and decompress zlib
+
+RUN cd usr/local/ && \
+    wget https://www.zlib.net/zlib-1.2.11.tar.gz && \
+    tar xzvf zlib-1.2.11.tar.gz
 
 # Download and decompress Nginx
 
@@ -52,6 +58,7 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
         --with-http_ssl_module \
         --with-threads \
         --with-pcre=/usr/local/ \
+        --with-zlib=/usr/local/ \
         --add-module=/tmp/build/nginx-rtmp-module/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION} && \
     make -j $(getconf _NPROCESSORS_ONLN) && \
     make install && \
