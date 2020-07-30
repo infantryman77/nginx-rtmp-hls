@@ -51,6 +51,7 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
         --http-client-body-temp-path=/tmp/nginx-client-body \
         --with-http_ssl_module \
         --with-threads \
+        --with-pcre=/usr/local/ \
         --add-module=/tmp/build/nginx-rtmp-module/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION} && \
     make -j $(getconf _NPROCESSORS_ONLN) && \
     make install && \
