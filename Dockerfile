@@ -2,7 +2,7 @@ FROM ubuntu:focal
 
 LABEL maintainer="infantryman77 <fred_d26@hotmail.com>"
 
-# Version of Nginx and nginx-rtmp-module
+# Version of Nginx and rtmp-module
 
 ENV NGINX_VERSION nginx-1.18.0
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
