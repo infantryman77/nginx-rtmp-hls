@@ -12,6 +12,7 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 RUN apt update && \
     apt upgrade -y && \
     apt autoremove -y && \
+    apt install build-essential -y \
     apt install wget -y && \
     apt install -y ca-certificates openssl libssl-dev && \
     rm -rf /var/lib/apt/lists/*
