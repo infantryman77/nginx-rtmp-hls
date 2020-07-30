@@ -10,7 +10,9 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 # Install dependencies
 
 RUN apt update && \
-    apt install wget -y \
+    apt upgrade -y && \
+    apt autoremove -y && \
+    apt install wget -y && \
     apt install -y ca-certificates openssl libssl-dev && \
     rm -rf /var/lib/apt/lists/*
 
