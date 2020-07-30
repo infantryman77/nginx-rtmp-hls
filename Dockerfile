@@ -15,6 +15,7 @@ RUN apt update && \
     apt install build-essential -y && \
     apt install wget -y && \
     apt install -y ca-certificates openssl libssl-dev && \
+    wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz && tar xzvf pcre-8.44.tar.gz && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and decompress Nginx
