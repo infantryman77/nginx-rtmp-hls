@@ -12,8 +12,9 @@ ENV NGINX_RTMP_MODULE_VERSION 1.2.1
 RUN apt update && \
     apt upgrade -y && \
     apt autoremove -y && \
-    apt install -y software-properties-common -y && \
-    apt install -y build-essential git tree -y && \
+    apt install software-properties-common -y && \
+    apt install build-essential git tree -y && \
+    apt install wget -y && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and decompress Nginx
