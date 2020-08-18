@@ -25,7 +25,7 @@ RUN mkdir -p /tmp/build/nginx && \
 
 # Dowload and decompress NGINX dependencies
 
-RUN apt-get install build-essential libpcre3 libpcre3-dev libssl-dev
+RUN apt-get install build-essential libpcre3 libpcre3-dev libssl-dev --no-install-recommends -y \
 
 # Download and decompress RTMP module
 
