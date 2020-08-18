@@ -6,39 +6,49 @@ LABEL maintainer="infantryman77 <fred_d26@hotmail.com>"
 
 ENV NGINX_VERSION nginx-1.18.0
 
-# Install dependencies
+# Create Directories
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt autoremove -y && \
-    apt install software-properties-common -y && \
-    apt install build-essential git tree -y && \
-    apt install wget -y && \
-    rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /opt/data && mkdir /www && mkdir -p /data/hls && mkdir -p /data/dash
 
-# Download and decompress Nginx
+# Install Dependencies
 
-RUN mkdir -p /tmp/build/nginx && \
-    cd /tmp/build/nginx && \
-    wget -O ${NGINX_VERSION}.tar.gz https://nginx.org/download/${NGINX_VERSION}.tar.gz && \
-    tar -zxf ${NGINX_VERSION}.tar.gz
+RUN	apk update && apk add	\
+binutils \
+binutils-libs \
+build-base \
+ca-certificates \
+gcc \
+libc-dev \
+libgcc \
+make \
+musl-dev \
+openssl \
+openssl-dev \
+pcre \
+pcre-dev \
+pkgconf \
+pkgconfig \
+zlib-dev
 
-# Dowload and decompress NGINX dependencies
+# Download and Decompress Nginx
 
-RUN apt-get install build-essential libpcre3 libpcre3-dev libssl-dev --no-install-recommends -y
+RUN cd /tmp && \
+wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
+tar zxf nginx-${NGINX_VERSION}.tar.gz && \
+rm nginx-${NGINX_VERSION}.tar.gz
 
-# Download and decompress RTMP module
+# Download and Decompress RTMP module
 
-RUN mkdir -p /tmp/build && \
-    cd /tmp/build && \
+RUN mkdir -p /tmp && \
+    cd /tmp && \
     git clone https://github.com/sergey-dryabzhinsky/nginx-rtmp-module.git
 
-# Build and install Nginx
+# Build and Install Nginx
 
-RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
+RUN cd /tmp/nginx/${NGINX_VERSION} && \
     ./configure \
-        --sbin-path=/usr/local/sbin/nginx \
-        --conf-path=/etc/nginx/nginx.conf \
+        --prefix=/opt/nginx \
+        --conf-path=/opt/nginx/nginx.conf \
         --error-log-path=/var/log/nginx/error.log \
         --pid-path=/var/run/nginx/nginx.pid \
         --lock-path=/var/lock/nginx/nginx.lock \
@@ -46,16 +56,12 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
         --http-client-body-temp-path=/tmp/nginx-client-body \
         --with-http_ssl_module \
         --with-threads \
-        --with-pcre=/usr/local \
-        --with-zlib=/usr/local \
-        --with-openssl=/usr/local \
-        --add-module=/tmp/build/nginx-rtmp-module && \
+        --add-module=/tmp/nginx-rtmp-module && \
     make -j $(getconf _NPROCESSORS_ONLN) && \
     make install && \
-    mkdir /var/lock/nginx && \
-    rm -rf /tmp/build
+    mkdir /var/lock/nginx
 
-# Forward logs to Docker
+# Forward Logs to Docker
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
