@@ -2,13 +2,12 @@ FROM ubuntu:focal
 
 LABEL maintainer="infantryman77 <fred_d26@hotmail.com>"
 
-# Install dependencies
+# Install Dependencies
 RUN apt-get update && \
-	apt-get install -y \
-		wget build-essential ca-certificates git libpcre3-dev openssl libssl-dev zlib1g-dev && \
+    apt-get install -y wget build-essential ca-certificates git libpcre3-dev openssl libssl-dev zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Download nginx source
+# Download and Decompress NGINX from Source
 RUN mkdir -p /tmp/build && \
 	cd /tmp/build && \
 	wget https://nginx.org/download/nginx-1.18.0.tar.gz && \
@@ -16,13 +15,10 @@ RUN mkdir -p /tmp/build && \
 	rm nginx-1.18.0.tar.gz
 
 # Download and Decompress RTMP module
-
 RUN cd /tmp/build/ && \
     git clone https://github.com/sergey-dryabzhinsky/nginx-rtmp-module.git
 
-# Build and Install Nginx
-
-# Build nginx with nginx-rtmp module
+# Build NGINX with RTMP Module
 RUN cd /tmp/build/nginx-1.18.0 && \
     ./configure \
         --sbin-path=/usr/local/sbin/nginx \
@@ -40,16 +36,13 @@ RUN cd /tmp/build/nginx-1.18.0 && \
     mkdir /var/lock/nginx
 
 # Forward Logs to Docker
-
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
-# Set up NGINX config file
-
+# Set up NGINX Config File
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # RTMP & HLS Ports
-
 EXPOSE 1935 8080
 
 CMD ["nginx", "-g", "daemon off;"]
