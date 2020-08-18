@@ -5,7 +5,7 @@ LABEL maintainer="infantryman77 <fred_d26@hotmail.com>"
 # Install dependencies
 RUN apt-get update && \
 	apt-get install -y \
-		wget build-essential ca-certificates git && \
+		wget build-essential ca-certificates git libpcre3-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Download nginx source
