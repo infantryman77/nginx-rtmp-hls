@@ -2,10 +2,6 @@ FROM ubuntu:focal
 
 LABEL maintainer="infantryman77 <fred_d26@hotmail.com>"
 
-# Version of Nginx and rtmp-module
-
-ENV NGINX_VERSION nginx-1.18.0
-
 # Install dependencies
 RUN apt-get update && \
 	apt-get install -y \
@@ -15,9 +11,9 @@ RUN apt-get update && \
 # Download nginx source
 RUN mkdir -p /tmp/build && \
 	cd /tmp/build && \
-	wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz && \
-	tar -zxf nginx-${NGINX_VERSION}.tar.gz && \
-	rm nginx-${NGINX_VERSION}.tar.gz
+	wget https://nginx.org/download/nginx-1.18.0.tar.gz && \
+	tar -zxf nginx-1.18.0.tar.gz && \
+	rm nginx-1.18.0.tar.gz
 
 # Download and Decompress RTMP module
 
@@ -27,7 +23,7 @@ RUN cd /tmp/build/ && \
 # Build and Install Nginx
 
 # Build nginx with nginx-rtmp module
-RUN cd /tmp/build/nginx-${NGINX_VERSION} && \
+RUN cd /tmp/build/nginx-1.18.0 && \
     ./configure \
         --sbin-path=/usr/local/sbin/nginx \
         --conf-path=/etc/nginx/nginx.conf \
