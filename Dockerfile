@@ -12,7 +12,7 @@ RUN mkdir -p /opt/data && mkdir /www && mkdir -p /data/hls && mkdir -p /data/das
 
 # Install Dependencies
 
-RUN	apk update && apk add	\
+RUN	apt update && apt install	\
 binutils \
 binutils-libs \
 build-base \
@@ -28,7 +28,7 @@ pcre \
 pcre-dev \
 pkgconf \
 pkgconfig \
-zlib-dev
+zlib-dev -y
 
 # Download and Decompress Nginx
 
