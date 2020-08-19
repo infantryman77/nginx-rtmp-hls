@@ -95,7 +95,7 @@ docker pull infantryman77/nginx-rtmp-hls
 ```
 This will pull in the NGINX RTMP HLS image.
 
-Once done, run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 1935 of the host to port 1935 of the Docker:
+Once done, run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 1935 and 8080 of the host to port 1935 and 8080 of the Docker:
 
 ```sh
 docker run -p 1935:1935 -p 8080:8080 infantryman77/nginx-rtmp-hls
